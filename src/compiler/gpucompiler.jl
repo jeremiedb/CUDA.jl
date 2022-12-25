@@ -23,7 +23,7 @@ function device_properties(dev)
             # we need to take care emitting LLVM instructions like `unreachable`, which
             # may result in thread-divergent control flow that older `ptxas` doesn't like.
             # see e.g. JuliaGPU/CUDAnative.jl#4
-            unreachable = true
+            unreachable = false
             if cap < v"7" || toolkit_release() < v"11.3"
                 unreachable = false
             end
@@ -31,7 +31,7 @@ function device_properties(dev)
             # there have been issues with emitting PTX `exit` instead of `trap` as well,
             # see e.g. JuliaGPU/CUDA.jl#431 and NVIDIA bug #3231266 (but since switching
             # to the toolkit's `ptxas` that specific machine/GPU now _requires_ exit...)
-            exitable = true
+            exitable = false
             if cap < v"7"
                 exitable = false
             end
